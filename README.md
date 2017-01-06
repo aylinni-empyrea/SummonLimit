@@ -9,7 +9,7 @@ retinazer/spazmatism are considered one minion.
 ## Configuration
 
 No configuration is required. **11** is set by default as it's the
-[maximum possible amount in the vanilla game](http://terraria.gamepedia.com/Summon_weapons#Notes).
+[maximum possible amount in the vanilla game *as of 1.3.4.4*](http://terraria.gamepedia.com/Summon_weapons#Trivia).
 
 Uses *EssentialsPlus-like* dynamic permissions,
 which follow the `summonlimit.<number>` format.
