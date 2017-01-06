@@ -19,7 +19,7 @@ namespace SummonLimit
 			if (group.HasPermission(root + ".*") || group.HasPermission("*"))
 				return short.MaxValue;
 
-			int max = SummonLimit.MaxSummons;
+			int max = 0;
 			var regex = new Regex("^" + root.Replace(".", @"\.") + @"\.(\d+)$");
 
 			foreach (string permission in group.TotalPermissions)
@@ -29,7 +29,7 @@ namespace SummonLimit
 					max = Math.Max(max, Convert.ToInt32(match.Groups[1].Value));
 			}
 
-			return max;
+			return max == 0 ? SummonLimit.MaxSummons : max;
 		}
 	}
 }
