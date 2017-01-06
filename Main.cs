@@ -23,7 +23,7 @@ namespace SummonLimit
 		{
 		}
 
-		internal static readonly Timer Metronome = new Timer(4000);
+		internal static readonly Timer Metronome = new Timer(3000);
 
 		// As of 1.3.4.4
 		internal const ushort MaxSummons = 11;
