@@ -38,6 +38,12 @@ namespace SummonLimit
 			ServerApi.Hooks.GamePostInitialize.Register(this, OnPostInitialize);
 		}
 
+		protected override void Dispose(bool disposing)
+		{
+			ServerApi.Hooks.GamePostInitialize.Deregister(this, OnPostInitialize);
+			base.Dispose(disposing);
+		}
+
 		private static void OnPostInitialize(EventArgs e)
 		{
 			Metronome.Elapsed += Check;
