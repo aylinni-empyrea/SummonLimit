@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 using Terraria;
+using Terraria.ID;
 using TShockAPI;
 
 namespace SummonLimit
 {
 	public partial class SummonLimit
 	{
+		/// <summary>
+		/// 	Runs every elapse of <see cref="Metronome"/>,
+		/// 	checks current summon projectiles and executes
+		///		<see cref="WarnOrKick"/> where appropriate.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private static void Check(object sender, ElapsedEventArgs e)
 		{
 			var players = new Dictionary<TSPlayer, ushort>();
@@ -40,6 +48,11 @@ namespace SummonLimit
 			players.Clear();
 		}
 
+		/// <summary>
+		///		Warns or kicks the player based on their
+		///		status in <see cref="Warned"/>.
+		/// </summary>
+		/// <param name="player">TSPlayer to warn or kick.</param>
 		private static void WarnOrKick(TSPlayer player)
 		{
 			int max = player.Group.GetDynamicPermission(Permission);
@@ -56,6 +69,13 @@ namespace SummonLimit
 			}
 		}
 
+		/// <summary>
+		///		Checks if the given <see cref="Group"/> is allowed to
+		///		contain given amount of minions.
+		/// </summary>
+		/// <param name="player">TSPlayer to check.</param>
+		/// <param name="amount">Amount of minion projectiles.</param>
+		/// <returns></returns>
 		private static bool CheckPermission(TSPlayer player, ushort amount)
 		{
 			int max = player.Group.GetDynamicPermission(Permission) * 2;
@@ -66,6 +86,10 @@ namespace SummonLimit
 			return amount <= max;
 		}
 
+		/// <summary>
+		///		<see cref="ProjectileID"/>s of
+		///		known summon minions.
+		/// </summary>
 		private enum Summons
 		{
 			BabySlime = 266,

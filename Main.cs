@@ -9,24 +9,43 @@ namespace SummonLimit
 	[ApiVersion(2, 00)]
 	public partial class SummonLimit : TerrariaPlugin
 	{
-		// As of 1.3.4.4
+		/// <summary>
+		/// <para>
+		/// 	The amount of maximum summons available without
+		///		hacking or modding.
+		/// </para>
+		///		This value is <value>11</value> as of Terraria 1.3.4.4.
+		/// </summary>
 		internal const ushort MaxSummons = 11;
 
-		// A "dynamic" permission
+		/// <summary>
+		///		The root permission for the plugin.
+		/// </summary>
 		internal const string Permission = "summonlimit";
 
+		/// <summary>
+		/// 	Message used for kicking the player.
+		/// </summary>
 		internal const string KickMessage = "You've exceeded the amount of allowed summons.";
 
+		/// <summary>
+		/// 	<see cref="Timer"/> used for performing minion checks
+		/// 	and cleanup operations.
+		/// </summary>
 		internal static readonly Timer Metronome = new Timer(3000);
 
 		public SummonLimit(Main game) : base(game)
 		{
 		}
 
+		#region Meta
+
 		public override string Name => "SummonLimit";
 		public override string Description => "Prevents summon hacking.";
 		public override string Author => "Newy";
 		public override Version Version => Assembly.GetExecutingAssembly().GetName().Version;
+
+		#endregion
 
 		public override void Initialize()
 		{
