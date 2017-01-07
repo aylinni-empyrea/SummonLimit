@@ -85,13 +85,17 @@ namespace SummonLimit
 
 		private static void WarnOrKick(TSPlayer player)
 		{
+			var max = player.Group.GetDynamicPermission(Permission);
+
 			if (!IsWarned(player))
 			{
+				TShock.Log.Info($"{player.Name} was warned for exceeding minion limit of {max} minions.");
 				Warn(player);
 			}
 			else
 			{
-				TShock.Utils.Kick(player, $"{KickMessage} ({player.Group.GetDynamicPermission(Permission)})", true);
+				TShock.Log.Info($"{player.Name} was kicked for repeatedly exceeding minion limit of {max} minions.");
+				TShock.Utils.Kick(player, $"{KickMessage} ({max})", true);
 			}
 		}
 
