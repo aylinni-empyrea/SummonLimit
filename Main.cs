@@ -40,7 +40,15 @@ namespace SummonLimit
 
 		protected override void Dispose(bool disposing)
 		{
+			Warned.Clear();
+
+			Metronome.Elapsed -= Check;
+			Metronome.Elapsed -= CleanWarned;
+			Metronome.Stop();
+			Metronome.Dispose();
+
 			ServerApi.Hooks.GamePostInitialize.Deregister(this, OnPostInitialize);
+
 			base.Dispose(disposing);
 		}
 
