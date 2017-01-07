@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SummonLimit
 {
@@ -12,9 +10,7 @@ namespace SummonLimit
 		{
 			var keys = dic.Keys.Where(k => predicate(k, dic[k])).ToList();
 			foreach (var key in keys)
-			{
 				dic.Remove(key);
-			}
 		}
 	}
 }

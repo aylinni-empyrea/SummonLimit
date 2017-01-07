@@ -22,9 +22,7 @@ namespace SummonLimit
 			player.Disable("Minion amount exceeded");
 
 			foreach (var proj in Main.projectile.Where(p => p.owner == player.Index))
-			{
 				player.RemoveProjectile(proj.identity, proj.owner);
-			}
 		}
 
 		private static void CleanWarned(object sender, ElapsedEventArgs e)

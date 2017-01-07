@@ -9,7 +9,7 @@ namespace SummonLimit
 	public static class GroupExtensions
 	{
 		/// <summary>
-		/// Returns the number in the end of the permission.
+		///   Returns the number in the end of the permission.
 		/// </summary>
 		/// <param name="group">A TShock group.</param>
 		/// <param name="root">Root of permission (part before number)</param>
@@ -19,12 +19,12 @@ namespace SummonLimit
 			if (group.HasPermission(root + ".*") || group.HasPermission("*"))
 				return short.MaxValue;
 
-			int max = 0;
+			var max = 0;
 			var regex = new Regex("^" + root.Replace(".", @"\.") + @"\.(\d+)$");
 
 			foreach (string permission in group.TotalPermissions)
 			{
-				Match match = regex.Match(permission);
+				var match = regex.Match(permission);
 				if (match.Success && match.Value == permission)
 					max = Math.Max(max, Convert.ToInt32(match.Groups[1].Value));
 			}

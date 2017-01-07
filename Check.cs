@@ -9,6 +9,63 @@ namespace SummonLimit
 {
 	public partial class SummonLimit
 	{
+		private static void Check(object sender, ElapsedEventArgs e)
+		{
+			var players = new Dictionary<TSPlayer, ushort>();
+
+			foreach (
+				var projectile in Main.projectile.Where(p => p != null &&
+				                                             p.active &&
+				                                             Enum.IsDefined(typeof(Summons), p.type)))
+			{
+				var player = TShock.Players[projectile.owner];
+
+				if (player == null || !player.Active)
+					continue;
+
+				// TODO: Check for rogue retinamini/spazmamini
+				var val =
+					(ushort) (projectile.type == (int) Summons.Retinamini || projectile.type == (int) Summons.Spazmamini ? 1 : 2);
+
+				if (!players.ContainsKey(player))
+					players.Add(player, val);
+				else
+					players[player] += val;
+			}
+
+			foreach (var player in players)
+				if (!CheckPermission(player.Key, player.Value))
+					WarnOrKick(player.Key);
+
+			players.Clear();
+		}
+
+		private static void WarnOrKick(TSPlayer player)
+		{
+			int max = player.Group.GetDynamicPermission(Permission);
+
+			if (!IsWarned(player))
+			{
+				TShock.Log.Info($"{player.Name} was warned for exceeding minion limit of {max} minions.");
+				Warn(player);
+			}
+			else
+			{
+				TShock.Log.Info($"{player.Name} was kicked for repeatedly exceeding minion limit of {max} minions.");
+				TShock.Utils.Kick(player, $"{KickMessage} ({max})", true);
+			}
+		}
+
+		private static bool CheckPermission(TSPlayer player, ushort amount)
+		{
+			int max = player.Group.GetDynamicPermission(Permission) * 2;
+
+			if (max == short.MaxValue * 2)
+				return true;
+
+			return amount <= max;
+		}
+
 		private enum Summons
 		{
 			BabySlime = 266,
@@ -48,65 +105,6 @@ namespace SummonLimit
 			StardustDragon2,
 			StardustDragon3,
 			StardustDragon4
-		}
-
-		private static void Check(object sender, ElapsedEventArgs e)
-		{
-			Dictionary<TSPlayer, ushort> players = new Dictionary<TSPlayer, ushort>();
-
-			foreach (
-				var projectile in Main.projectile.Where(p => p != null &&
-				                                             p.active &&
-				                                             Enum.IsDefined(typeof(Summons), p.type)))
-			{
-				var player = TShock.Players[projectile.owner];
-
-				if (player == null || !player.Active)
-					continue;
-
-				// TODO: Check for rogue retinamini/spazmamini
-				var val =
-					(ushort) (projectile.type == (int) Summons.Retinamini || projectile.type == (int) Summons.Spazmamini ? 1 : 2);
-
-				if (!players.ContainsKey(player))
-					players.Add(player, val);
-				else
-					players[player] += val;
-			}
-
-			foreach (var player in players)
-			{
-				if (!CheckPermission(player.Key, player.Value))
-					WarnOrKick(player.Key);
-			}
-
-			players.Clear();
-		}
-
-		private static void WarnOrKick(TSPlayer player)
-		{
-			var max = player.Group.GetDynamicPermission(Permission);
-
-			if (!IsWarned(player))
-			{
-				TShock.Log.Info($"{player.Name} was warned for exceeding minion limit of {max} minions.");
-				Warn(player);
-			}
-			else
-			{
-				TShock.Log.Info($"{player.Name} was kicked for repeatedly exceeding minion limit of {max} minions.");
-				TShock.Utils.Kick(player, $"{KickMessage} ({max})", true);
-			}
-		}
-
-		private static bool CheckPermission(TSPlayer player, ushort amount)
-		{
-			var max = player.Group.GetDynamicPermission(Permission) * 2;
-
-			if (max == short.MaxValue * 2)
-				return true;
-
-			return amount <= max;
 		}
 	}
 }
