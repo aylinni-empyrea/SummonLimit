@@ -47,6 +47,7 @@ namespace SummonLimit
 		private static void OnPostInitialize(EventArgs e)
 		{
 			Metronome.Elapsed += Check;
+			Metronome.Elapsed += CleanWarned;
 			Metronome.Start();
 		}
 	}

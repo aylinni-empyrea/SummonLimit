@@ -77,10 +77,22 @@ namespace SummonLimit
 			foreach (var player in players)
 			{
 				if (!CheckPermission(player.Key, player.Value))
-					TShock.Utils.Kick(player.Key, $"{KickMessage} ({player.Key.Group.GetDynamicPermission(Permission)})", true);
+					WarnOrKick(player.Key);
 			}
 
 			players.Clear();
+		}
+
+		private static void WarnOrKick(TSPlayer player)
+		{
+			if (!IsWarned(player))
+			{
+				Warn(player);
+			}
+			else
+			{
+				TShock.Utils.Kick(player, $"{KickMessage} ({player.Group.GetDynamicPermission(Permission)})", true);
+			}
 		}
 
 		private static bool CheckPermission(TSPlayer player, ushort amount)
