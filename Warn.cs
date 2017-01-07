@@ -17,7 +17,9 @@ namespace SummonLimit
 		/// <summary>
 		///		Message to warn the user with.
 		/// </summary>
-		internal const string WarnMessage = KickMessage;
+		internal const string WarnMessage = KickMessage +
+		                                    " You will be kicked if you don't cease exceeding the maximum allowed number of summons. "
+		                                    + "[c/ff9939:({0} summons)]";
 
 		/// <summary>
 		/// 	Contains the IP addresses and the time they were warned.
@@ -44,11 +46,12 @@ namespace SummonLimit
 			Warned.Add(player.IP, DateTime.UtcNow);
 
 			player.Disable(WarnMessage);
-			player.SendErrorMessage(WarnMessage +
-			                        " You will be kicked if you don't cease exceeding the maximum allowed number of minions. " +
-			                        "[c/ff8855:({0})]", player.Group.GetDynamicPermission(Permission));
+			player.SendErrorMessage(WarnMessage, player.Group.GetDynamicPermission(Permission));
 
-			foreach (var proj in Main.projectile.Where(p => p.owner == player.Index))
+			foreach (var proj in Main.projectile.Where(p => p != null &&
+			                                                p.active &&
+			                                                p.owner == player.Index &&
+			                                                IsMinion(p)))
 				player.RemoveProjectile(proj.identity, proj.owner);
 		}
 

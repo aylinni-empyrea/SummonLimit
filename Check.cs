@@ -10,6 +10,14 @@ namespace SummonLimit
 	public partial class SummonLimit
 	{
 		/// <summary>
+		///		Checks if the given <see cref="Projectile"/>
+		///		is a summon minion.
+		/// </summary>
+		/// <param name="p"><see cref="Projectile"/> to check.</param>
+		/// <returns>True if it's a summon projectile, otherwise false.</returns>
+		private static bool IsMinion(Projectile p) => p?.type != null && Enum.IsDefined(typeof(Summons), p.type);
+
+		/// <summary>
 		/// 	Runs every elapse of <see cref="Metronome"/>,
 		/// 	checks current summon projectiles and executes
 		///		<see cref="WarnOrKick"/> where appropriate.
@@ -23,7 +31,7 @@ namespace SummonLimit
 			foreach (
 				var projectile in Main.projectile.Where(p => p != null &&
 				                                             p.active &&
-				                                             Enum.IsDefined(typeof(Summons), p.type)))
+				                                             IsMinion(p)))
 			{
 				var player = TShock.Players[projectile.owner];
 
@@ -86,7 +94,7 @@ namespace SummonLimit
 		}
 
 		/// <summary>
-		///		<see cref="ProjectileID"/>s of
+		///		<see cref="Terraria.ID.ProjectileID"/>s of
 		///		known summon minions.
 		/// </summary>
 		private enum Summons
