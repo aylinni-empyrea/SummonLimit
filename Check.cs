@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 using Terraria;
-using Terraria.ID;
 using TShockAPI;
 
 namespace SummonLimit

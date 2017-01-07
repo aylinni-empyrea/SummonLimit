@@ -15,6 +15,11 @@ namespace SummonLimit
 		internal const ushort WarnMinutes = 20;
 
 		/// <summary>
+		///		Message to warn the user with.
+		/// </summary>
+		internal const string WarnMessage = KickMessage;
+
+		/// <summary>
 		/// 	Contains the IP addresses and the time they were warned.
 		/// </summary>
 		internal static readonly Dictionary<string, DateTime> Warned = new Dictionary<string, DateTime>();
@@ -38,7 +43,10 @@ namespace SummonLimit
 		{
 			Warned.Add(player.IP, DateTime.UtcNow);
 
-			player.Disable("Minion amount exceeded");
+			player.Disable(WarnMessage);
+			player.SendErrorMessage(WarnMessage +
+			                        " You will be kicked if you don't cease exceeding the maximum allowed number of minions. " +
+			                        "[c/ff8855:({0})]", player.Group.GetDynamicPermission(Permission));
 
 			foreach (var proj in Main.projectile.Where(p => p.owner == player.Index))
 				player.RemoveProjectile(proj.identity, proj.owner);
