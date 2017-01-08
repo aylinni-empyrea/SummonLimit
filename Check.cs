@@ -10,17 +10,17 @@ namespace SummonLimit
 	public partial class SummonLimit
 	{
 		/// <summary>
-		///		Checks if the given <see cref="Projectile"/>
-		///		is a summon minion.
+		///   Checks if the given <see cref="Projectile" />
+		///   is a summon minion.
 		/// </summary>
-		/// <param name="p"><see cref="Projectile"/> to check.</param>
+		/// <param name="p"><see cref="Projectile" /> to check.</param>
 		/// <returns>True if it's a summon projectile, otherwise false.</returns>
 		private static bool IsMinion(Projectile p) => p?.type != null && Enum.IsDefined(typeof(Summons), p.type);
 
 		/// <summary>
-		/// 	Runs every elapse of <see cref="Metronome"/>,
-		/// 	checks current summon projectiles and executes
-		///		<see cref="WarnOrKick"/> where appropriate.
+		///   Runs every elapse of <see cref="Metronome" />,
+		///   checks current summon projectiles and executes
+		///   <see cref="WarnOrKick" /> where appropriate.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -56,8 +56,8 @@ namespace SummonLimit
 		}
 
 		/// <summary>
-		///		Warns or kicks the player based on their
-		///		status in <see cref="Warned"/>.
+		///   Warns or kicks the player based on their
+		///   status in <see cref="Warned" />.
 		/// </summary>
 		/// <param name="player">TSPlayer to warn or kick.</param>
 		private static void WarnOrKick(TSPlayer player)
@@ -77,8 +77,8 @@ namespace SummonLimit
 		}
 
 		/// <summary>
-		///		Checks if the given <see cref="Group"/> is allowed to
-		///		contain given amount of minions.
+		///   Checks if the given <see cref="Group" /> is allowed to
+		///   contain given amount of minions.
 		/// </summary>
 		/// <param name="player">TSPlayer to check.</param>
 		/// <param name="amount">Amount of minion projectiles.</param>
@@ -94,8 +94,8 @@ namespace SummonLimit
 		}
 
 		/// <summary>
-		///		<see cref="Terraria.ID.ProjectileID"/>s of
-		///		known summon minions.
+		///   <see cref="Terraria.ID.ProjectileID" />s of
+		///   known summon minions.
 		/// </summary>
 		private enum Summons
 		{
