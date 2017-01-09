@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 using Terraria;
-using Terraria.ID;
 using TShockAPI;
 
 namespace SummonLimit
@@ -19,19 +18,13 @@ namespace SummonLimit
 		private static bool IsMinion(Projectile p) => p?.type != null && Enum.IsDefined(typeof(Summons), p.type);
 
 		/// <summary>
-		///   Checks if the given <see cref="ProjectileID" />
-		///   belongs to a summon minion.
-		/// </summary>
-		/// <param name="p"><see cref="ProjectileID" /> to check.</param>
-		/// <returns>True if it's a summon projectile, otherwise false.</returns>
-		private static bool IsMinion(int p) => Enum.IsDefined(typeof(Summons), p);
-
-		/// <summary>
-		///   Runs on every trigger of <see cref="GetDataHandlers.NewProjectile" />,
+		///   Runs every elapse of <see cref="Metronome" />,
 		///   checks current summon projectiles and executes
 		///   <see cref="WarnOrKick" /> where appropriate.
 		/// </summary>
-		private static void Check()
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private static void Check(object sender, ElapsedEventArgs e)
 		{
 			var players = new Dictionary<TSPlayer, ushort>();
 
