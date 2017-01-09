@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Timers;
 using Terraria;
 using TerrariaApi.Server;
+using TShockAPI;
 
 namespace SummonLimit
 {
@@ -31,10 +32,15 @@ namespace SummonLimit
 		internal const string KickMessage = "You've exceeded the amount of allowed summons.";
 
 		/// <summary>
-		///   <see cref="Timer" /> used for performing minion checks
-		///   and cleanup operations.
+		///		How often the cleanup <see cref="Timer"/> fires.
 		/// </summary>
-		internal static readonly Timer Metronome = new Timer(3000);
+		internal static TimeSpan CleanupInterval = new TimeSpan(0, 30, 0);
+
+		/// <summary>
+		///   <see cref="Timer" /> used for performing
+		///		cleanup operations.
+		/// </summary>
+		internal static readonly Timer Metronome = new Timer(CleanupInterval.TotalMilliseconds);
 
 		public SummonLimit(Main game) : base(game)
 		{
@@ -43,13 +49,19 @@ namespace SummonLimit
 		public override void Initialize()
 		{
 			ServerApi.Hooks.GamePostInitialize.Register(this, OnPostInitialize);
+			GetDataHandlers.NewProjectile += OnNewProjectile;
+		}
+
+		private static void OnNewProjectile(object sender, GetDataHandlers.NewProjectileEventArgs e)
+		{
+			if (IsMinion(e.Type))
+				Check();
 		}
 
 		protected override void Dispose(bool disposing)
 		{
 			Warned.Clear();
 
-			Metronome.Elapsed -= Check;
 			Metronome.Elapsed -= CleanWarned;
 			Metronome.Stop();
 			Metronome.Dispose();
@@ -61,7 +73,6 @@ namespace SummonLimit
 
 		private static void OnPostInitialize(EventArgs e)
 		{
-			Metronome.Elapsed += Check;
 			Metronome.Elapsed += CleanWarned;
 			Metronome.Start();
 		}
