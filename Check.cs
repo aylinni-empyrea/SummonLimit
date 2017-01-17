@@ -38,7 +38,7 @@ namespace SummonLimit
 				if (player == null || !player.Active)
 					continue;
 
-				// TODO: Check for rogue retinamini/spazmamini
+				// TODO: Check for rogue retinamini/spazmamini and abusing of stardust dragon heads/tails
 				var val =
 					(ushort) (projectile.type == (int) Summons.Retinamini || projectile.type == (int) Summons.Spazmamini ? 1 : 2);
 
@@ -132,10 +132,10 @@ namespace SummonLimit
 			StardustCell1 = 613,
 			StardustCell2,
 
-			StardustDragon1 = 625,
-			StardustDragon2,
-			StardustDragon3,
-			StardustDragon4
+			//StardustDragon1 = 625,
+			StardustDragon2 = 626,
+			//StardustDragon3,
+			//StardustDragon4
 		}
 	}
 }
