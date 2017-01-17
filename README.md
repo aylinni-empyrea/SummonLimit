@@ -1,9 +1,11 @@
-﻿# SummonLimit
+# SummonLimit
 Allows limiting the maximum allowed amount of summons per player.
+
+Players exceeding the limit is first warned(disabled and their minions cleared), and kicked on repeat offense.
 
 Prevents minion hacks(long stardust dragons) by default.
 
-Twins minions are taken into account. Each pair of
+**Note:** Twins minions are taken into account. Each pair of
 retinazer/spazmatism are considered one minion.
 
 ## Configuration
