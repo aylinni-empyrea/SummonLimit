@@ -130,7 +130,7 @@ namespace SummonLimit
 			DeadlySphere = 533,
 
 			StardustCell1 = 613,
-			StardustCell2,
+			//StardustCell2,
 
 			//StardustDragon1 = 625,
 			StardustDragon2 = 626,
