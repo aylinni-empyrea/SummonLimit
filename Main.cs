@@ -6,7 +6,7 @@ using TerrariaApi.Server;
 
 namespace SummonLimit
 {
-	[ApiVersion(2, 00)]
+	[ApiVersion(2, 1)]
 	public partial class SummonLimit : TerrariaPlugin
 	{
 		/// <summary>
