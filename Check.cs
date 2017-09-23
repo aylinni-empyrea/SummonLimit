@@ -1,21 +1,52 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 using Terraria;
 using TShockAPI;
+using static Terraria.ID.ProjectileID;
 
 namespace SummonLimit
 {
   public partial class SummonLimit
   {
     /// <summary>
+    ///   <see cref="Terraria.ID.ProjectileID" />s of
+    ///   known summon minions.
+    /// </summary>
+    private static readonly int[] Summons =
+    {
+      Pygmy, Pygmy2, Pygmy3, Pygmy4,
+      BabySlime, Hornet, FlyingImp, Retanimini, Spazmamini,
+      VenomSpider, JumperSpider, DangerousSpider,
+      OneEyedPirate, SoulscourgePirate, PirateCaptain,
+      UFOMinion, Raven, Tempest, DeadlySphere,
+      StardustCellMinion, StardustDragon2 // including other kinds seem to overcount
+    };
+
+    /// <summary>
+    ///   <see cref="Terraria.ID.ProjectileID" />s of
+    ///   known sentry minions.
+    /// </summary>
+    private static readonly int[] Sentries =
+    {
+      SpiderHiver, MoonlordTurret, // queen spider staff & lunar portal staff
+      FrostHydra, RainbowCrystal,
+      DD2BallistraTowerT1, DD2BallistraTowerT2, DD2BallistraTowerT3,
+      DD2LightningAuraT1, DD2LightningAuraT2, DD2LightningAuraT3,
+      DD2FlameBurstTowerT1, DD2FlameBurstTowerT2, DD2FlameBurstTowerT3,
+      DD2ExplosiveTrapT1, DD2ExplosiveTrapT2, DD2ExplosiveTrapT3
+    };
+
+    /// <summary>
     ///   Checks if the given <see cref="Projectile" />
     ///   is a summon minion.
     /// </summary>
     /// <param name="p"><see cref="Projectile" /> to check.</param>
     /// <returns>True if it's a summon projectile, otherwise false.</returns>
-    private static bool IsMinion(Projectile p) => Summons.Contains(p?.type ?? 0);
+    private static bool IsMinion(Projectile p)
+    {
+      return Summons.Contains(p?.type ?? 0);
+    }
 
     /// <summary>
     ///   Runs every elapse of <see cref="Metronome" />,
@@ -85,21 +116,12 @@ namespace SummonLimit
     /// <returns></returns>
     private static bool CheckPermission(TSPlayer player, ushort amount)
     {
-      int max = player.Group.GetDynamicPermission(Permission) * 2;
+      var max = player.Group.GetDynamicPermission(Permission) * 2;
 
       if (max == short.MaxValue * 2)
         return true;
 
       return amount <= max;
     }
-
-    /// <summary>
-    ///   <see cref="Terraria.ID.ProjectileID" />s of
-    ///   known summon minions.
-    /// </summary>
-    private static readonly int[] Summons =
-    {
-      266, 373, 375, 387, 388, 390, 391, 392, 393, 394, 395, 191, 192, 193, 194, 423, 317, 407, 533, 613, 626
-    };
   }
 }
