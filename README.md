@@ -1,4 +1,4 @@
-# SummonLimit
+# SummonLimit [![Github All Releases](https://img.shields.io/github/downloads/deadsurgeon42/SummonLimit/total.svg?style=flat-square)](https://github.com/deadsurgeon42/SummonLimit)
 Allows limiting the maximum allowed amount of summons per player.
 
 Players exceeding the limit is first warned(disabled and their minions cleared), and kicked on repeat offense.
