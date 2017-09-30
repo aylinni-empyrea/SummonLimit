@@ -49,6 +49,29 @@ namespace SummonLimit
     }
 
     /// <summary>
+    ///   Checks the given <see cref="Projectile" />'s relative "value".
+    /// </summary>
+    /// <param name="p"><see cref="Projectile" /> to check for special cases.</param>
+    /// <returns>Value of the summon projectile * 100.</returns>
+    private static int GetSummonValue(Projectile p)
+    {
+      switch (p.type)
+      {
+        case Retanimini:
+        case Spazmamini:
+          return 50;
+
+        case VenomSpider:
+        case DangerousSpider:
+        case JumperSpider:
+          return 75;
+
+        default:
+          return 100;
+      }
+    }
+
+    /// <summary>
     ///   Runs every elapse of <see cref="Metronome" />,
     ///   checks current summon projectiles and executes
     ///   <see cref="WarnOrKick" /> where appropriate.
@@ -57,12 +80,9 @@ namespace SummonLimit
     /// <param name="e"></param>
     private static void Check(object sender, ElapsedEventArgs e)
     {
-      var players = new Dictionary<TSPlayer, ushort>();
+      var players = new Dictionary<TSPlayer, int>();
 
-      foreach (
-        var projectile in Main.projectile.Where(p => p != null &&
-                                                     p.active &&
-                                                     IsMinion(p)))
+      foreach (var projectile in Main.projectile.Where(p => p != null && p.active && IsMinion(p)))
       {
         var player = TShock.Players[projectile.owner];
 
@@ -70,8 +90,7 @@ namespace SummonLimit
           continue;
 
         // TODO: Check for rogue retinamini/spazmamini and abusing of stardust dragon heads/tails
-        var val =
-          (ushort) (projectile.type == 387 || projectile.type == 388 ? 1 : 2);
+        var val = GetSummonValue(projectile);
 
         if (!players.ContainsKey(player))
           players.Add(player, val);
@@ -114,11 +133,11 @@ namespace SummonLimit
     /// <param name="player">TSPlayer to check.</param>
     /// <param name="amount">Amount of minion projectiles.</param>
     /// <returns></returns>
-    private static bool CheckPermission(TSPlayer player, ushort amount)
+    private static bool CheckPermission(TSPlayer player, int amount)
     {
-      var max = player.Group.GetDynamicPermission(Permission) * 2;
+      var max = player.Group.GetDynamicPermission(Permission) * 100;
 
-      if (max == short.MaxValue * 2)
+      if (max == short.MaxValue * 100)
         return true;
 
       return amount <= max;
